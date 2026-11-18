@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    tools {
+        // Ensure this matches your Jenkins global tool configuration
+        maven 'Maven-3.6.3' 
+    }
+    
+    stages {
+        stage('Checkout Code') {
+            steps {
+                echo "Downloading the actual Java project..."
+                dir('amazon-code') {
+                    git branch: 'main', url: 'https://github.com/PraveenKuberABC/Amazon-Jenkins'
+                }
+            }
+        }
+        
+        stage('Build Project') {
+            steps {
+                echo "Running Maven build from the custom Jenkinsfile path..."
+                dir('amazon-code') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo "✅ SUCCESS: Jenkins successfully found and executed the file from the new path!"
+        }
+        failure {
+            echo "❌ FAILURE: The pipeline encountered an error. Check the logs."
+        }
+    }
+}
