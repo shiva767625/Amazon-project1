@@ -34,4 +34,4 @@ pipeline {
             echo "❌ FAILURE: The pipeline encountered an error. Check the logs."
         }
     }
-} 
+}
